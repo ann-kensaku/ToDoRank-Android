@@ -1,4 +1,4 @@
 package jp.ann.kensaku.todorank
 
-class Item(val title: String) {
+data class Item(val title: String) {
 }
