@@ -25,13 +25,10 @@ class MainActivity : AppCompatActivity() {
         itemList.add(Item("やること3"))
         itemList.add(Item("やること4"))
 
-        viewManager = LinearLayoutManager(this)
         viewAdapter = RecyclerAdapter(itemList)
 
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
             setHasFixedSize(true)
-
-            layoutManager = viewManager
 
             adapter = viewAdapter
         }
