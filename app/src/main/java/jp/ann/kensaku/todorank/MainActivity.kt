@@ -10,9 +10,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerAdapter
-    private lateinit var viewManager: RecyclerView.LayoutManager
-
-    //var myDataset: Array<String> = Array<String>(13, {i -> i.toString()})
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
