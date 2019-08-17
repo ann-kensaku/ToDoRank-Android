@@ -15,7 +15,7 @@ class ItemEditActivity : AppCompatActivity() {
         edit_text = findViewById(R.id.edit_text) as TextView
 
         val intent = getIntent()
-        title = intent.getStringExtra("title")
+        title = intent.getStringExtra("title") as String
 
         edit_text.text = title
     }
