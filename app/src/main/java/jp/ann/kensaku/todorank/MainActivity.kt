@@ -1,5 +1,6 @@
 package jp.ann.kensaku.todorank
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -36,13 +37,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewAdapter.setOnItemClickListener(object: RecyclerAdapter.OnItemClickListener {
+            //val intent = Intent(this, ItemEditActivity.class)
             override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onClick(view: View, data: Item) {
                 Toast.makeText(applicationContext, data.title, Toast.LENGTH_SHORT).show()
-
+                val intent = Intent(applicationContext, ItemEditActivity::class.java)
+                startActivity(intent)
             }
 
         })
