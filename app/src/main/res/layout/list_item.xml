@@ -15,6 +15,6 @@
         android:text="@{data.title}"/>
 
 
-    </LinearLayout>
+</LinearLayout>
 
 
