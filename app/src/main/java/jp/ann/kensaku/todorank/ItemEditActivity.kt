@@ -6,17 +6,17 @@ import android.widget.TextView
 
 class ItemEditActivity : AppCompatActivity() {
     lateinit var title: String
-    lateinit var edit_text: TextView
+    lateinit var editText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_edit)
 
-        edit_text = findViewById(R.id.edit_text) as TextView
+        editText = findViewById(R.id.edit_text) as TextView
 
         val intent = getIntent()
         title = intent.getStringExtra("title") as String
 
-        edit_text.text = title
+        editText.text = title
     }
 }
