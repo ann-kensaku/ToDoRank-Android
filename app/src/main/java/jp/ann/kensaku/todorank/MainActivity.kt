@@ -35,19 +35,5 @@ class MainActivity : AppCompatActivity() {
 
             adapter = viewAdapter
         }
-
-        viewAdapter.setOnItemClickListener(object: RecyclerAdapter.OnItemClickListener {
-
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onClick(view: View, data: Item) {
-                val intent = Intent(applicationContext, ItemEditActivity::class.java)
-                intent.putExtra("title", data.title)
-                startActivity(intent)
-            }
-
-        })
     }
 }
