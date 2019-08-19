@@ -15,17 +15,14 @@ class RecyclerAdapter(private val toDoList: List<Item>):
 
     class RecyclerViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
-        val linearLayout: LinearLayout = view.findViewById(R.id.linear_layout)
         val titleTextView: TextView = view.findViewById(R.id.title_text)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.RecyclerViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
         setOnItemClickListener(listener)
 
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_item, parent, false)
-        //val layoutInflater = LayoutInflater.from(parent!!.context)
-        //val binding = OriginalItemLayoutBinding.inflate(layoutInflater, parent, false)
 
         return RecyclerViewHolder(view)
     }
@@ -54,5 +51,4 @@ class RecyclerAdapter(private val toDoList: List<Item>):
         fun onClick(view: View, data: Item)
     }
 
-    //class BindingHolder(var binding: OriginalItemLayoutBinding) : RecyclerViewHolder(binding.root)
 }
