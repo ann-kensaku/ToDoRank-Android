@@ -31,7 +31,7 @@ class RecyclerAdapter(
         val data = toDoList[position]
         holder.titleTextView.text = toDoList[position].title
         holder.itemView.setOnClickListener({
-            listener.onClick(it, data)
+            onClick(data)
         })
     }
 
