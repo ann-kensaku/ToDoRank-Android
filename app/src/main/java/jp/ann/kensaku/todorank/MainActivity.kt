@@ -24,7 +24,11 @@ class MainActivity : AppCompatActivity() {
         itemList.add(Item("やること3"))
         itemList.add(Item("やること4"))
 
-        viewAdapter = RecyclerAdapter(itemList)
+        viewAdapter = RecyclerAdapter(itemList) {
+            val intent = Intent(applicationContext, ItemEditActivity::class.java)
+            intent.putExtra("title", it.title)
+            startActivity(intent)
+        }
 
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
             setHasFixedSize(true)
