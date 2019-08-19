@@ -13,7 +13,6 @@ class RecyclerAdapter(
     private val onClick: (Item) -> Unit):
     RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>(){
 
-    lateinit var listener: OnItemClickListener
 
     class RecyclerViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
@@ -21,7 +20,6 @@ class RecyclerAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
-        setOnItemClickListener(listener)
 
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_item, parent, false)
@@ -37,16 +35,7 @@ class RecyclerAdapter(
         })
     }
 
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.listener = listener
-    }
-
     override fun getItemCount(): Int {
         return toDoList.size
     }
-
-    interface OnItemClickListener : AdapterView.OnItemClickListener {
-        fun onClick(view: View, data: Item)
-    }
-
 }
