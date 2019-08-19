@@ -30,11 +30,7 @@ class RecyclerAdapter(private val toDoList: List<Item>):
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         val data = toDoList[position]
         holder.titleTextView.text = toDoList[position].title
-        //holder.binding.setData(data)
-        //holder.binding.originalLinearLayout.setOnClickListener({
-        //    listener.onClick(it, data)
-        //})
-        holder.linearLayout.setOnClickListener({
+        holder.itemView.setOnClickListener({
             listener.onClick(it, data)
         })
     }
