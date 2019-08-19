@@ -8,7 +8,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAdapter(private val toDoList: List<Item>):
+class RecyclerAdapter(
+    private val toDoList: List<Item>,
+    private val onClick: (Item) -> Unit):
     RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>(){
 
     lateinit var listener: OnItemClickListener
