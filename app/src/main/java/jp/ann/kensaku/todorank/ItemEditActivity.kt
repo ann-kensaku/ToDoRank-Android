@@ -12,7 +12,7 @@ class ItemEditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_edit)
 
-        editText = findViewById(R.id.edit_text) as TextView
+        editText = findViewById(R.id.edit_text)
 
         val intent = getIntent()
         title = intent.getStringExtra("title") as String
