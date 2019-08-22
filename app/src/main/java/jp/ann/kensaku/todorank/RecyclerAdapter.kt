@@ -30,9 +30,7 @@ class RecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         val data = toDoList[position]
         holder.titleTextView.text = toDoList[position].title
-        holder.itemView.setOnClickListener({
-            onClick(data)
-        })
+        holder.itemView.setOnClickListener {onClick(data)}
     }
 
     override fun getItemCount(): Int {
