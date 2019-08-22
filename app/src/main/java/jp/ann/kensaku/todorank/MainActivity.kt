@@ -1,10 +1,12 @@
 package jp.ann.kensaku.todorank
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.ViewManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.view.View
+import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +24,11 @@ class MainActivity : AppCompatActivity() {
         itemList.add(Item("やること3"))
         itemList.add(Item("やること4"))
 
-        viewAdapter = RecyclerAdapter(itemList)
+        viewAdapter = RecyclerAdapter(itemList) {
+            val intent = Intent(applicationContext, ItemEditActivity::class.java)
+            intent.putExtra("title", it.title)
+            startActivity(intent)
+        }
 
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
             setHasFixedSize(true)
