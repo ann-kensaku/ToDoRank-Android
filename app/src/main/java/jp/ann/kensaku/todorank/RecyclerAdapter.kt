@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerAdapter(
     private val toDoList: List<Item>,
-    private val onClick: (Item) -> Unit):
-    RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>(){
+    private val onClick: (Item) -> Unit
+) :
+    RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>() {
 
 
     class RecyclerViewHolder(view: View) :
@@ -30,7 +31,7 @@ class RecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         val data = toDoList[position]
         holder.titleTextView.text = toDoList[position].title
-        holder.itemView.setOnClickListener {onClick(data)}
+        holder.itemView.setOnClickListener { onClick(data) }
     }
 
     override fun getItemCount(): Int {
