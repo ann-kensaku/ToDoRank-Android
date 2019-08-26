@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,7 @@ class RecyclerAdapter(
     class RecyclerViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
         val titleTextView: TextView = view.findViewById(R.id.title_text)
+        val checkBox: CheckBox = view.findViewById(R.id.check_box)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
@@ -32,6 +34,9 @@ class RecyclerAdapter(
         val data = toDoList[position]
         holder.titleTextView.text = toDoList[position].title
         holder.itemView.setOnClickListener { onClick(data) }
+        holder.checkBox.setOnClickListener(View.OnClickListener {
+            //処理を追加
+        })
     }
 
     override fun getItemCount(): Int {
