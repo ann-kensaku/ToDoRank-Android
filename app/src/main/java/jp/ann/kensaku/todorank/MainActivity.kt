@@ -30,9 +30,6 @@ class MainActivity : AppCompatActivity() {
         itemList.add(Item("やること4"))
 
         viewAdapter = RecyclerAdapter(itemList) {
-            /*val intent = Intent(applicationContext, ItemEditActivity::class.java)
-            intent.putExtra("title", it.title)
-            startActivity(intent)*/
             val alertDialogBuilder = AlertDialog.Builder(this)
             val inflater = layoutInflater
             alertDialogBuilder.setTitle("todoの編集")
