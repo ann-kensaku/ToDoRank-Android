@@ -10,6 +10,8 @@ import android.widget.AdapterView
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.input
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,17 +32,11 @@ class MainActivity : AppCompatActivity() {
         itemList.add(Item("やること4"))
 
         viewAdapter = RecyclerAdapter(itemList) {
-            val alertDialogBuilder = AlertDialog.Builder(this)
-            val inflater = layoutInflater
-            alertDialogBuilder.setTitle("todoの編集")
-            val dialogLayout = inflater.inflate(R.layout.edit_dialog, null)
-            val editText = dialogLayout.findViewById<EditText>(R.id.edit_text)
-            editText.setText(it.title)
-            alertDialogBuilder.setView(dialogLayout)
-            alertDialogBuilder.setPositiveButton("OK", DialogInterface.OnClickListener{ _, _ ->
-                //クリックの処理
-            })
-            alertDialogBuilder.show()
+            MaterialDialog(this).show {
+                title(text = "todoの編集")
+                input(prefill = it.title)
+                positiveButton(text = "OK")
+            }
         }
 
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
