@@ -1,6 +1,7 @@
 package jp.ann.kensaku.todorank
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -34,12 +35,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)*/
             val alertDialogBuilder = AlertDialog.Builder(this)
             val inflater = layoutInflater
-            alertDialogBuilder.setTitle("todoListの編集")
+            alertDialogBuilder.setTitle("todoの編集")
             val dialogLayout = inflater.inflate(R.layout.edit_dialog, null)
             val editText = dialogLayout.findViewById<EditText>(R.id.edit_text)
             editText.setText(it.title)
             alertDialogBuilder.setView(dialogLayout)
-            //alertDialogBuilder.setPositiveButton("OK")
+            alertDialogBuilder.setPositiveButton("OK", DialogInterface.OnClickListener{ _, _ ->
+                //クリックの処理
+            })
             alertDialogBuilder.show()
         }
 
