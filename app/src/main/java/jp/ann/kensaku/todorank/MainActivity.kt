@@ -1,14 +1,7 @@
 package jp.ann.kensaku.todorank
 
-import android.annotation.SuppressLint
-import android.content.DialogInterface
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
@@ -38,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
+        recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
             setHasFixedSize(true)
 
             adapter = viewAdapter
