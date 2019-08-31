@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class MainActivity : AppCompatActivity() {
@@ -35,6 +36,15 @@ class MainActivity : AppCompatActivity() {
             setHasFixedSize(true)
 
             adapter = viewAdapter
+        }
+
+        val fab = findViewById<FloatingActionButton>(R.id.floating_action_button)
+        fab.setOnClickListener {
+            MaterialDialog(this).show{
+                title(text = "todoの追加")
+                input(hint = "Title")
+                positiveButton(text = "OK")
+            }
         }
     }
 }
