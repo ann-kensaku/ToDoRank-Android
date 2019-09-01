@@ -1,11 +1,11 @@
 package jp.ann.kensaku.todorank
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.input
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,15 +25,26 @@ class MainActivity : AppCompatActivity() {
         itemList.add(Item("やること4"))
 
         viewAdapter = RecyclerAdapter(itemList) {
-            val intent = Intent(applicationContext, ItemEditActivity::class.java)
-            intent.putExtra("title", it.title)
-            startActivity(intent)
+            MaterialDialog(this).show {
+                title(text = "todoの編集")
+                input(prefill = it.title)
+                positiveButton(text = "OK")
+            }
         }
 
-        recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply{
+        recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
             setHasFixedSize(true)
 
             adapter = viewAdapter
+        }
+
+        val fab = findViewById<FloatingActionButton>(R.id.floating_action_button)
+        fab.setOnClickListener {
+            MaterialDialog(this).show{
+                title(text = "todoの追加")
+                input(hint = "Title")
+                positiveButton(text = "OK")
+            }
         }
     }
 }
