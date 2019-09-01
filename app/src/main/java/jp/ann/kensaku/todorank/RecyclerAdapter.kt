@@ -18,22 +18,18 @@ class RecyclerAdapter(
 
     class RecyclerViewHolder(var binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        //val titleTextView: TextView = view.findViewById(R.id.title_text)
         val checkBox: CheckBox = binding.root.findViewById(R.id.check_box)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ListItemBinding.inflate(layoutInflater, parent, false)
-        //val view = LayoutInflater.from(parent.context)
-        //            .inflate(R.layout.list_item, parent, false)
 
         return RecyclerViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         val data = toDoList[position]
-        //holder.titleTextView.text = toDoList[position].title
         holder.binding.setData(data)
         holder.itemView.setOnClickListener { onClick(data) }
         holder.checkBox.setOnClickListener(View.OnClickListener {
