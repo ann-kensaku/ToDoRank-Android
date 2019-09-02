@@ -25,7 +25,7 @@ class RecyclerAdapter(
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         val data = toDoList[position]
-        holder.binding.setData(data)
+        holder.binding.data = data
         holder.itemView.setOnClickListener { onClick(data) }
         holder.binding.checkBox.setOnClickListener(View.OnClickListener {
             //処理を追加
