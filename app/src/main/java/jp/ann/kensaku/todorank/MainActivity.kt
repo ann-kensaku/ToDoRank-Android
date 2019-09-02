@@ -1,6 +1,5 @@
 package jp.ann.kensaku.todorank
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         val fab = findViewById<FloatingActionButton>(R.id.floating_action_button)
         fab.setOnClickListener {
-            MaterialDialog(this).show{
+            MaterialDialog(this).show {
                 title(text = "todoの追加")
                 input(hint = "Title")
                 positiveButton(text = "OK")
