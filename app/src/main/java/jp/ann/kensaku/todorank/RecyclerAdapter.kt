@@ -14,10 +14,7 @@ class RecyclerAdapter(
     RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>() {
 
 
-    class RecyclerViewHolder(val binding: ListItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        val checkBox: CheckBox = binding.root.findViewById(R.id.check_box)
-    }
+    class RecyclerViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -30,7 +27,7 @@ class RecyclerAdapter(
         val data = toDoList[position]
         holder.binding.setData(data)
         holder.itemView.setOnClickListener { onClick(data) }
-        holder.checkBox.setOnClickListener(View.OnClickListener {
+        holder.binding.checkBox.setOnClickListener(View.OnClickListener {
             //処理を追加
         })
     }
