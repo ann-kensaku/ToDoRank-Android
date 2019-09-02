@@ -30,6 +30,7 @@ class RecyclerAdapter(
         holder.binding.checkBox.setOnClickListener(View.OnClickListener {
             //処理を追加
         })
+        holder.binding.executePendingBindings()
     }
 
     override fun getItemCount(): Int {
