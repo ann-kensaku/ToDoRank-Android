@@ -14,7 +14,7 @@ class RecyclerAdapter(
     RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>() {
 
 
-    class RecyclerViewHolder(var binding: ListItemBinding) :
+    class RecyclerViewHolder(val binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val checkBox: CheckBox = binding.root.findViewById(R.id.check_box)
     }
