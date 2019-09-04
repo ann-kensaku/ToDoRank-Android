@@ -2,10 +2,10 @@ package jp.ann.kensaku.todorank
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import jp.ann.kensaku.todorank.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,7 +24,8 @@ class MainActivity : AppCompatActivity() {
         itemList.add(Item("やること4"))
 
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(
-            this, R.layout.activity_main)
+            this, R.layout.activity_main
+        )
 
         viewAdapter = RecyclerAdapter(itemList) {
             MaterialDialog(this).show {
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        binding.floatingActionButton.setOnClickListener{
+        binding.floatingActionButton.setOnClickListener {
             MaterialDialog(this).show {
                 title(text = "todoの追加")
                 input(hint = "Title")
