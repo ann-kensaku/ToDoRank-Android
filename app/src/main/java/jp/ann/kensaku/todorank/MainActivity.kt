@@ -10,7 +10,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +23,9 @@ class MainActivity : AppCompatActivity() {
         itemList.add(Item("やること3"))
         itemList.add(Item("やること4"))
 
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(
+            this, R.layout.activity_main)
+
         viewAdapter = RecyclerAdapter(itemList) {
             MaterialDialog(this).show {
                 title(text = "todoの編集")
@@ -32,14 +34,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
+        binding.recyclerView.apply {
             setHasFixedSize(true)
 
             adapter = viewAdapter
         }
 
-        val fab = findViewById<FloatingActionButton>(R.id.floating_action_button)
-        fab.setOnClickListener {
+
+        binding.floatingActionButton.setOnClickListener{
             MaterialDialog(this).show {
                 title(text = "todoの追加")
                 input(hint = "Title")
