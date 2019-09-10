@@ -15,6 +15,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(
+            this, R.layout.activity_main
+        )
+
         //データの生成
         val itemList = mutableListOf<Item>()
         itemList.add(Item("やること1"))
@@ -22,9 +26,7 @@ class MainActivity : AppCompatActivity() {
         itemList.add(Item("やること3"))
         itemList.add(Item("やること4"))
 
-        val binding: ActivityMainBinding = DataBindingUtil.setContentView(
-            this, R.layout.activity_main
-        )
+
 
         viewAdapter = RecyclerAdapter(itemList) {
             MaterialDialog(this).show {
