@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import jp.ann.kensaku.todorank.databinding.ListItemBinding
 
 class RecyclerAdapter(
-    private val toDoList: List<Item>,
+    //private val toDoList: List<Item>,
     private val onClick: (Item) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>() {
 
+    private var todos = emptyList<Item>()
 
     class RecyclerViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -24,7 +25,7 @@ class RecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        val data = toDoList[position]
+        val data = todos[position]
         holder.binding.data = data
         holder.itemView.setOnClickListener { onClick(data) }
         holder.binding.checkBox.setOnClickListener(View.OnClickListener {
@@ -33,7 +34,12 @@ class RecyclerAdapter(
         holder.binding.executePendingBindings()
     }
 
+    internal fun setTodos(todos: List<Item>) {
+        this.todos = todos
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
-        return toDoList.size
+        return todos.size
     }
 }
