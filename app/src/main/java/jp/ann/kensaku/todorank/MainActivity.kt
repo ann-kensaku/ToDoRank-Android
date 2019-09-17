@@ -3,6 +3,10 @@ package jp.ann.kensaku.todorank
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.room.Room
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import jp.ann.kensaku.todorank.databinding.ActivityMainBinding
@@ -27,11 +31,12 @@ class MainActivity : AppCompatActivity() {
         //itemList.add(Item("やること3"))
         //itemList.add(Item("やること4"))
 
-
-        viewAdapter = RecyclerAdapter(itemList) {
+        viewAdapter = RecyclerAdapter() {
             MaterialDialog(this).show {
                 title(text = "todoの編集")
-                input(prefill = it.title)
+                input(prefill = it.title) { dialog, text ->
+
+                }
                 positiveButton(text = "OK")
             }
         }
