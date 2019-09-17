@@ -11,6 +11,7 @@ import jp.ann.kensaku.todorank.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewAdapter: RecyclerAdapter
+    private lateinit var todoViewModel: TodoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,12 +21,11 @@ class MainActivity : AppCompatActivity() {
         )
 
         //データの生成
-        val itemList = mutableListOf<Item>()
-        itemList.add(Item("やること1"))
-        itemList.add(Item("やること2"))
-        itemList.add(Item("やること3"))
-        itemList.add(Item("やること4"))
-
+        //val itemList = mutableListOf<Item>()
+        //itemList.add(Item("やること1"))
+        //itemList.add(Item("やること2"))
+        //itemList.add(Item("やること3"))
+        //itemList.add(Item("やること4"))
 
 
         viewAdapter = RecyclerAdapter(itemList) {
@@ -36,12 +36,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
+
         binding.recyclerView.apply {
             setHasFixedSize(true)
 
             adapter = viewAdapter
         }
 
+        todoViewModel.allTodos.observe(this, Observer {todos ->
+            todos?.let {
+                viewAdapter.setTodos(it)
+            }
+        })
 
         binding.floatingActionButton.setOnClickListener {
             MaterialDialog(this).show {
