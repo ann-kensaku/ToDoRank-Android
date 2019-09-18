@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity() {
             MaterialDialog(this).show {
                 title(text = "todoの編集")
                 input(prefill = it.title) { dialog, text ->
-
+                    it.title = text.toString()
+                    todoViewModel.update(it)
                 }
                 positiveButton(text = "OK")
             }
