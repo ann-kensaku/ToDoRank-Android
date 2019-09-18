@@ -21,4 +21,8 @@ class TodoViewModel(application: Application): AndroidViewModel(application) {
         repository.insert(todo)
     }
 
+    fun update(todo: Item) = viewModelScope.launch{
+        repository.update(todo)
+    }
+
 }
