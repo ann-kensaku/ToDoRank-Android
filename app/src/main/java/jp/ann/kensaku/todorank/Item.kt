@@ -10,5 +10,5 @@ data class Item (
     val id: Int = 0,
 
     @ColumnInfo(name = "title")
-    val title: String? = null
+    var title: String? = null
 )
