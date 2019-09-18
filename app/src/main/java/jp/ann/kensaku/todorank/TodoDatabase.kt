@@ -21,13 +21,13 @@ abstract class TodoDatabase: RoomDatabase() {
             super.onOpen(db)
             INSTANCE?.let {todoDatabase ->
                 scope.launch {
-                    var todoDao = todoDatabase.todoDao()
+                    val todoDao = todoDatabase.todoDao()
 
                     //Delete all content here
                     todoDao.deleteAll()
 
                     //Add sample
-                    var todo = Item(title="やること1")
+                    val todo = Item(title="やること1")
                     todoDao.insert(todo)
 
                 }
