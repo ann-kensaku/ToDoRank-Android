@@ -58,7 +58,9 @@ class MainActivity : AppCompatActivity() {
         binding.floatingActionButton.setOnClickListener {
             MaterialDialog(this).show {
                 title(text = "todoの追加")
-                input(hint = "Title")
+                input(hint = "Title") { dialog, text ->
+                    todoViewModel.insert(Item(0, text.toString()))
+                }
                 positiveButton(text = "OK")
             }
         }
