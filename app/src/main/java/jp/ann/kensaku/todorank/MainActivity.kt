@@ -24,13 +24,6 @@ class MainActivity : AppCompatActivity() {
             this, R.layout.activity_main
         )
 
-        //データの生成
-        //val itemList = mutableListOf<Item>()
-        //itemList.add(Item("やること1"))
-        //itemList.add(Item("やること2"))
-        //itemList.add(Item("やること3"))
-        //itemList.add(Item("やること4"))
-
         viewAdapter = RecyclerAdapter() {
             MaterialDialog(this).show {
                 title(text = "todoの編集")
