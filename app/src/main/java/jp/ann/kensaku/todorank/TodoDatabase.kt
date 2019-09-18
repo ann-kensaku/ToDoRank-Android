@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.*
 
-@Database(entities = [Item::class], version = 1)
+@Database(entities = [Item::class], version = 2)
 abstract class TodoDatabase: RoomDatabase() {
     abstract fun todoDao(): TodoDao
 
@@ -49,6 +49,7 @@ abstract class TodoDatabase: RoomDatabase() {
                     TodoDatabase::class.java,
                     "todo_table"
                 )
+                    .fallbackToDestructiveMigration()
                     .addCallback(TodoDatabaseCallback(scope))
                     .build()
                 INSTANCE = instance
