@@ -7,7 +7,6 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlin.coroutines.*
 
 @Database(entities = [Item::class], version = 2)
 abstract class TodoDatabase: RoomDatabase() {
