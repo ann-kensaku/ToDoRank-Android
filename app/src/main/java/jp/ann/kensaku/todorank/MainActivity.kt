@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
             this, R.layout.activity_main
         )
 
-        viewAdapter = RecyclerAdapter() {
+        todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
+        viewAdapter = RecyclerAdapter(todoViewModel) {
             MaterialDialog(this).show {
                 title(text = "todoの編集")
                 input(prefill = it.title) { dialog, text ->
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
+
 
         binding.recyclerView.apply {
             setHasFixedSize(true)
