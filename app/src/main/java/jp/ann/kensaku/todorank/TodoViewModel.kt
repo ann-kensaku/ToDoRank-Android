@@ -25,4 +25,8 @@ class TodoViewModel(application: Application): AndroidViewModel(application) {
         repository.update(todo)
     }
 
+    fun delete(todo: Item) = viewModelScope.launch {
+        repository.delete(todo)
+    }
+
 }
