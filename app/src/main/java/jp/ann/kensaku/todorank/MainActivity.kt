@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             MaterialDialog(this).show {
                 title(text = "todoの追加")
                 input(hint = "Title") { dialog, text ->
-                    todoViewModel.insert(Item(0, text.toString()))
+                    todoViewModel.insert(Item(0, text.toString(), false))
                 }
                 positiveButton(text = "OK")
             }
