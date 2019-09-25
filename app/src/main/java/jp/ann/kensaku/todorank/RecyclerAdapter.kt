@@ -27,9 +27,11 @@ class RecyclerAdapter(
         val data = todos[position]
         holder.binding.data = data
         holder.itemView.setOnClickListener { onClick(data) }
-        holder.binding.checkBox.setOnClickListener(View.OnClickListener {
+        holder.binding.checkBox.setOnClickListener {
+            data.done = holder.binding.checkBox.isChecked
+            todoViewModel.update(data)
             //処理を追加
-        })
+        }
         holder.itemView.setOnCreateContextMenuListener { contextMenu, _, _ ->
             contextMenu.setHeaderTitle(data.title)
             contextMenu.add("Delete").setOnMenuItemClickListener {
