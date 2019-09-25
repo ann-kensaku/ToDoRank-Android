@@ -26,7 +26,7 @@ abstract class TodoDatabase: RoomDatabase() {
                     todoDao.deleteAll()
 
                     //Add sample
-                    val todo = Item(title="やること1")
+                    val todo = Item(title = "やること1", done = false)
                     todoDao.insert(todo)
 
                 }
