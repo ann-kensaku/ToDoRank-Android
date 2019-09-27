@@ -30,14 +30,11 @@ class RecyclerAdapter(
         holder.binding.checkBox.setOnClickListener {
             data.done = holder.binding.checkBox.isChecked
             onUpdate(data)
-            //todoViewModel.update(data)
-            //処理を追加
         }
         holder.itemView.setOnCreateContextMenuListener { contextMenu, _, _ ->
             contextMenu.setHeaderTitle(data.title)
             contextMenu.add("Delete").setOnMenuItemClickListener {
                 onDelete(data)
-                //todoViewModel.delete(data)
                 true
             }
         }
