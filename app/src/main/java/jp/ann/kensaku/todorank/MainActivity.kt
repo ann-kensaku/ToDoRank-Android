@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
-        viewAdapter = RecyclerAdapter(todoViewModel) {
+        viewAdapter = RecyclerAdapter({
             MaterialDialog(this).show {
                 title(text = "todoの編集")
                 input(prefill = it.title) { dialog, text ->
@@ -32,7 +32,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 positiveButton(text = "OK")
             }
-        }
+        },  {todoViewModel.update(it)
+        },  {todoViewModel.delete(it)
+        })
 
 
 
