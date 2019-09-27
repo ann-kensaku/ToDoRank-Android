@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import jp.ann.kensaku.todorank.databinding.ListItemBinding
 
 class RecyclerAdapter(
-    private val todoViewModel: TodoViewModel,
-    private val onClick: (Item) -> Unit
+    private val onClick: (Item) -> Unit,
+    private val onUpdate: (Item) -> Unit,
+    private val onDelete: (Item) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>() {
 
@@ -28,13 +29,15 @@ class RecyclerAdapter(
         holder.itemView.setOnClickListener { onClick(data) }
         holder.binding.checkBox.setOnClickListener {
             data.done = holder.binding.checkBox.isChecked
-            todoViewModel.update(data)
+            onUpdate(data)
+            //todoViewModel.update(data)
             //処理を追加
         }
         holder.itemView.setOnCreateContextMenuListener { contextMenu, _, _ ->
             contextMenu.setHeaderTitle(data.title)
             contextMenu.add("Delete").setOnMenuItemClickListener {
-                todoViewModel.delete(data)
+                onDelete(data)
+                //todoViewModel.delete(data)
                 true
             }
         }
