@@ -20,12 +20,6 @@ abstract class TodoDatabase: RoomDatabase() {
             super.onOpen(db)
             INSTANCE?.let {todoDatabase ->
                 scope.launch {
-                    val todoDao = todoDatabase.todoDao()
-
-                    //Delete all content here
-                    todoDao.deleteAll()
-
-
                 }
             }
         }
