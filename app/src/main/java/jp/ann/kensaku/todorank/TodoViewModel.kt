@@ -12,7 +12,7 @@ class TodoViewModel(application: Application): AndroidViewModel(application) {
     val allTodos: LiveData<List<Item>>
 
     init {
-        val todoDao = TodoDatabase.getDatabase(application, viewModelScope).todoDao()
+        val todoDao = TodoDatabase.getDatabase(application).todoDao()
         repository = TodoRepository(todoDao)
         allTodos = repository.allTodos
     }
