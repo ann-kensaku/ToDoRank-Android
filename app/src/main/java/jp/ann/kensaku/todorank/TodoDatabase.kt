@@ -11,14 +11,11 @@ abstract class TodoDatabase: RoomDatabase() {
     abstract fun todoDao(): TodoDao
 
     private class TodoDatabaseCallback(
-        private val scope: CoroutineScope
-    ): RoomDatabase.Callback() {
+    ) : RoomDatabase.Callback() {
 
         override fun onOpen(db: SupportSQLiteDatabase) {
             super.onOpen(db)
-            INSTANCE?.let {todoDatabase ->
-                scope.launch {
-                }
+            INSTANCE?.let {
             }
         }
     }
@@ -28,8 +25,7 @@ abstract class TodoDatabase: RoomDatabase() {
         private var INSTANCE: TodoDatabase? = null
 
         fun getDatabase(
-            context: Context,
-            scope: CoroutineScope
+            context: Context
         ): TodoDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -38,7 +34,7 @@ abstract class TodoDatabase: RoomDatabase() {
                     "todo_table"
                 )
                     .fallbackToDestructiveMigration()
-                    .addCallback(TodoDatabaseCallback(scope))
+                    .addCallback(TodoDatabaseCallback())
                     .build()
                 INSTANCE = instance
                 instance
