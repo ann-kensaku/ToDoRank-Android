@@ -94,6 +94,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.delete_done -> {
+                MaterialDialog(this).show {
+                    title(text = "チェック済み項目の削除")
+                    positiveButton(text = "削除") {
+                        todoViewModel.deleteDone(true)
+                    }
+                }
+                true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
     // TODO: ロジック分離のために大幅書き換え必要
     //比較結果を受け取る
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
