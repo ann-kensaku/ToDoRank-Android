@@ -3,6 +3,9 @@ package jp.ann.kensaku.todorank
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             this, R.layout.activity_main
         )
 
+        setSupportActionBar(binding.toolbar)
         todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
         viewAdapter = RecyclerAdapter({
             MaterialDialog(this).show {
@@ -143,6 +147,29 @@ class MainActivity : AppCompatActivity() {
                 }
                 //新しい項目を追加する
                 todoViewModel.insert(newItem)
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.delete_done -> {
+                MaterialDialog(this).show {
+                    title(text = "チェック済み項目の削除")
+                    positiveButton(text = "削除") {
+                        todoViewModel.deleteDone(true)
+                    }
+                }
+                true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
             }
         }
     }
