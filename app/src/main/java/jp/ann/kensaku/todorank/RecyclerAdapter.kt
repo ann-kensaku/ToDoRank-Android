@@ -1,18 +1,18 @@
 package jp.ann.kensaku.todorank
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import jp.ann.kensaku.todorank.databinding.ListItemBinding
 
 class RecyclerAdapter(
-    private val toDoList: List<Item>,
-    private val onClick: (Item) -> Unit
+    private val onClick: (Item) -> Unit,
+    private val onUpdate: (Item) -> Unit,
+    private val onDelete: (Item) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder>() {
 
+    private var todos = emptyList<Item>()
 
     class RecyclerViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -24,16 +24,30 @@ class RecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        val data = toDoList[position]
+        val data = todos[position]
         holder.binding.data = data
         holder.itemView.setOnClickListener { onClick(data) }
-        holder.binding.checkBox.setOnClickListener(View.OnClickListener {
-            //処理を追加
-        })
+        holder.binding.checkBox.setOnClickListener {
+            data.done = holder.binding.checkBox.isChecked
+            onUpdate(data)
+        }
+        holder.itemView.setOnCreateContextMenuListener { contextMenu, _, _ ->
+            contextMenu.setHeaderTitle(data.title)
+            contextMenu.add("Delete").setOnMenuItemClickListener {
+                onDelete(data)
+                true
+            }
+        }
+
         holder.binding.executePendingBindings()
     }
 
+    internal fun setTodos(todos: List<Item>) {
+        this.todos = todos
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
-        return toDoList.size
+        return todos.size
     }
 }

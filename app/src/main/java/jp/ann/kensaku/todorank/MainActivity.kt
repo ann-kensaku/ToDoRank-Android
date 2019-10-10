@@ -3,6 +3,8 @@ package jp.ann.kensaku.todorank
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import jp.ann.kensaku.todorank.databinding.ActivityMainBinding
@@ -11,6 +13,7 @@ import jp.ann.kensaku.todorank.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewAdapter: RecyclerAdapter
+    private lateinit var todoViewModel: TodoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,22 +22,21 @@ class MainActivity : AppCompatActivity() {
             this, R.layout.activity_main
         )
 
-        //データの生成
-        val itemList = mutableListOf<Item>()
-        itemList.add(Item("やること1"))
-        itemList.add(Item("やること2"))
-        itemList.add(Item("やること3"))
-        itemList.add(Item("やること4"))
-
-
-
-        viewAdapter = RecyclerAdapter(itemList) {
+        todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
+        viewAdapter = RecyclerAdapter({
             MaterialDialog(this).show {
                 title(text = "todoの編集")
-                input(prefill = it.title)
+                input(prefill = it.title) { dialog, text ->
+                    it.title = text.toString()
+                    todoViewModel.update(it)
+                }
                 positiveButton(text = "OK")
             }
-        }
+        },  {todoViewModel.update(it)
+        },  {todoViewModel.delete(it)
+        })
+
+
 
         binding.recyclerView.apply {
             setHasFixedSize(true)
@@ -42,11 +44,18 @@ class MainActivity : AppCompatActivity() {
             adapter = viewAdapter
         }
 
+        todoViewModel.allTodos.observe(this, Observer {todos ->
+            todos?.let {
+                viewAdapter.setTodos(it)
+            }
+        })
 
         binding.floatingActionButton.setOnClickListener {
             MaterialDialog(this).show {
                 title(text = "todoの追加")
-                input(hint = "Title")
+                input(hint = "Title") { dialog, text ->
+                    todoViewModel.insert(Item(0, text.toString(), false))
+                }
                 positiveButton(text = "OK")
             }
         }
