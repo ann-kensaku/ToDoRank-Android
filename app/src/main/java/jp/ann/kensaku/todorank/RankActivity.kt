@@ -1,5 +1,6 @@
 package jp.ann.kensaku.todorank
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class RankActivity : AppCompatActivity() {
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rank)
