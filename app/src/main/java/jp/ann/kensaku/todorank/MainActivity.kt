@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import jp.ann.kensaku.todorank.databinding.ActivityMainBinding
-import android.util.Log
 
 
 class MainActivity : AppCompatActivity() {
@@ -72,7 +71,6 @@ class MainActivity : AppCompatActivity() {
                         todoViewModel.insert(newItem)
                     } else {
                         val intent = Intent(applicationContext, RankActivity::class.java)
-                        Log.d("INTENT", "intentstart")
                         targettext = newItem.title
                         high = 0
                         low = itemcount + 1
@@ -101,8 +99,7 @@ class MainActivity : AppCompatActivity() {
             val rest = intent.extras?.getInt("ANSWER", 1)
 
             if(rest == 1) {
-                Log.d("HIGH", high.toString())
-                Log.d("LOW", low.toString())
+
                 low = middle
                 change_rank = middle
             } else {
@@ -111,9 +108,6 @@ class MainActivity : AppCompatActivity() {
             if (low - high > 1) {
 
                 middle = ((low + high) / 2) as Int
-                Log.d("HIGH", high.toString())
-                Log.d("LOW", low.toString())
-                Log.d("MIDDLE", middle.toString())
 
                 val comparetext = todoViewModel.allTodos.value?.get(middle-1)?.title
                 val intent = Intent(applicationContext, RankActivity::class.java)
@@ -125,10 +119,8 @@ class MainActivity : AppCompatActivity() {
 
             } else {
                 val newItem = Item(0,targettext, false, low)
-                Log.d("COUNT",itemcount.toString())
                 for(i in low..itemcount) {
 
-                    Log.d("i", low.toString())
                     val temp_item = todoViewModel.allTodos.value?.get(i-1)
                     if (temp_item != null) {
                         temp_item.rank = temp_item.rank + 1
