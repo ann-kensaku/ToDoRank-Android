@@ -164,29 +164,16 @@ class MainActivity : AppCompatActivity() {
                     title(text = "チェック済み項目の削除")
                     positiveButton(text = "削除") {
                         todoViewModel.deleteDone(true)
-                    }
-                }
-                true
-            }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
-        }
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.delete_done -> {
-                MaterialDialog(this).show {
-                    title(text = "チェック済み項目の削除")
-                    positiveButton(text = "削除") {
-                        todoViewModel.deleteDone(true)
+                         //ランキングの書き換え
+                        itemcount = viewAdapter.itemCount
+                        for(i in 0..itemcount) {
+                            val temp_item = todoViewModel.allTodos.value?.get(i)
+                            if (temp_item != null) {
+                                temp_item.rank = i + 1
+                                todoViewModel.update(temp_item)
+                            }
+                        }
                     }
                 }
                 true
