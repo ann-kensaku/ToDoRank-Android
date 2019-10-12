@@ -173,4 +173,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.delete_done -> {
+                MaterialDialog(this).show {
+                    title(text = "チェック済み項目の削除")
+                    positiveButton(text = "削除") {
+                        todoViewModel.deleteDone(true)
+                    }
+                }
+                true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
+    }
 }
