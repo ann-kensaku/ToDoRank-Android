@@ -44,7 +44,18 @@ class MainActivity : AppCompatActivity() {
         }, {
             todoViewModel.update(it)
         }, {
+            itemcount = viewAdapter.itemCount
+            //削除する項目のランクを取得
+            val delete_rank = it.rank
             todoViewModel.delete(it)
+            for(i in delete_rank..itemcount) {
+
+                val temp_item = todoViewModel.allTodos.value?.get(i-1)
+                if (temp_item != null) {
+                    temp_item.rank = temp_item.rank - 1
+                    todoViewModel.update(temp_item)
+                }
+            }
         })
 
 
@@ -67,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                 input(hint = "Title") { dialog, text ->
                     itemcount = viewAdapter.itemCount
                     val newItem = Item(0, text.toString(), false, 1)
+                    //初めての追加ならば、そのままリストに加える
                     if (itemcount == 0) {
                         todoViewModel.insert(newItem)
                     } else {
@@ -78,6 +90,7 @@ class MainActivity : AppCompatActivity() {
                         change_rank = itemcount + 1
 
                         middle = ((low + high) / 2) as Int
+                        //比較対象のタイトルを取り出す
                         val comparetext = todoViewModel.allTodos.value?.get(middle-1)?.title
 
                         intent.putExtra("NEWITEM", targettext)
@@ -91,13 +104,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //比較結果を受け取る
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
 
         if(resultCode == Activity.RESULT_OK &&
                 requestCode == RESULT_RUNKACTIVITY && intent != null) {
             val rest = intent.extras?.getInt("ANSWER", 1)
-
+            //より重要ならば
             if(rest == 1) {
 
                 low = middle
@@ -127,6 +141,7 @@ class MainActivity : AppCompatActivity() {
                         todoViewModel.update(temp_item)
                     }
                 }
+                //新しい項目を追加する
                 todoViewModel.insert(newItem)
             }
         }
