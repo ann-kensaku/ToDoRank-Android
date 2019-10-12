@@ -159,7 +159,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val RESULT_RANK_ACTIVITY = 1000
     }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.main, menu)
@@ -173,6 +172,16 @@ class MainActivity : AppCompatActivity() {
                     title(text = "チェック済み項目の削除")
                     positiveButton(text = "削除") {
                         todoViewModel.deleteDone(true)
+
+                         //ランキングの書き換え
+                        itemcount = viewAdapter.itemCount
+                        for(i in 0..itemcount) {
+                            val temp_item = todoViewModel.allTodos.value?.get(i)
+                            if (temp_item != null) {
+                                temp_item.rank = i + 1
+                                todoViewModel.update(temp_item)
+                            }
+                        }
                     }
                 }
                 true
