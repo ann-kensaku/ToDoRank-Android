@@ -3,6 +3,7 @@ package jp.ann.kensaku.todorank
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -167,10 +168,15 @@ class MainActivity : AppCompatActivity() {
 
                          //ランキングの書き換え
                         itemcount = viewAdapter.itemCount
-                        for(i in 0..itemcount) {
+                        Log.d("ITEMO", itemcount.toString())
+                        var rank = 1
+                        for(i in 0..itemcount-1) {
                             val temp_item = todoViewModel.allTodos.value?.get(i)
                             if (temp_item != null) {
-                                temp_item.rank = i + 1
+                                if(temp_item.done == false) {
+                                    temp_item.rank = rank
+                                    rank += 1
+                                }
                                 todoViewModel.update(temp_item)
                             }
                         }
