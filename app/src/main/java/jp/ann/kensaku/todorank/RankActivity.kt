@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
-class RankActivity: AppCompatActivity(){
+class RankActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,19 +30,19 @@ class RankActivity: AppCompatActivity(){
         val width = dm.widthPixels
 
 
-        View.OnTouchListener(function = { view, motionEvent ->
+        val listener = View.OnTouchListener(function = { view, motionEvent ->
             if (motionEvent.action == MotionEvent.ACTION_MOVE) {
-                view.y = motionEvent.getRawY()
-                view.x = motionEvent.getRawX()
+                view.y = motionEvent.getRawY() - view.height/2
+                view.x = motionEvent.getRawX() - view.width/2
             }
 
             if (motionEvent.action == MotionEvent.ACTION_UP) {
-                if (motionEvent.getRawX() >= width * 2 / 3 ) {
+                if (motionEvent.getRawX() >= width * 2 / 3) {
                     val rankIntent = Intent()
                     rankIntent.putExtra("ANSWER", 1)
                     setResult(RESULT_OK, rankIntent)
                     finish()
-                } else if(motionEvent.getRawX() <= width / 3){
+                } else if (motionEvent.getRawX() <= width / 3) {
                     val rankIntent = Intent()
                     rankIntent.putExtra("ANSWER", -1)
                     setResult(RESULT_OK, rankIntent)
@@ -52,6 +52,8 @@ class RankActivity: AppCompatActivity(){
             }
             true
         })
+
+        dragTextView.setOnTouchListener(listener)
     }
 }
 
