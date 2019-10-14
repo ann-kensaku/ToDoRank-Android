@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewAdapter: RecyclerAdapter
     private lateinit var todoViewModel: TodoViewModel
-    private val RESULT_RUNKACTIVITY = 1000
+    private val RESULT_RANK_ACTIVITY = 1000
     private var low = 0
     private var high = 0
     private var middle = 0
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                         intent.putExtra("NEWITEM", targettext)
                         intent.putExtra("COMPAREITEM", comparetext)
                         //startActivity(intent)
-                        startActivityForResult(intent, RESULT_RUNKACTIVITY)
+                        startActivityForResult(intent, RESULT_RANK_ACTIVITY)
                     }
                     positiveButton(text = "OK")
                 }
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, intent)
 
         if(resultCode == Activity.RESULT_OK &&
-                requestCode == RESULT_RUNKACTIVITY && intent != null) {
+                requestCode == RESULT_RANK_ACTIVITY && intent != null) {
             val rest = intent.extras?.getInt("ANSWER", 1)
             //より重要ならば
             if(rest == 1) {
@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("NEWITEM", targettext)
                 intent.putExtra("COMPAREITEM", comparetext)
                 //startActivity(intent)
-                startActivityForResult(intent, RESULT_RUNKACTIVITY)
+                startActivityForResult(intent, RESULT_RANK_ACTIVITY)
 
             } else {
                 val newItem = Item(0,targettext, false, low)
