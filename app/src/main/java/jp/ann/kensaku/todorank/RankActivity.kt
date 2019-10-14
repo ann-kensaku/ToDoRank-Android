@@ -5,37 +5,34 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.MotionEvent
-import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import jp.ann.kensaku.todorank.databinding.ActivityRankBinding
 
 class RankActivity : AppCompatActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_rank)
+        val binding = DataBindingUtil.setContentView<ActivityRankBinding>(
+            this,
+            R.layout.activity_rank
+        )
 
-        val intent = getIntent()
-
-        val dragTextView: TextView = findViewById(R.id.drag_text)
-        val compareText: TextView = findViewById(R.id.compare_text)
-
-        val target_text = intent.getStringExtra("NEWITEM")
-        val compare_text = intent.getStringExtra("COMPAREITEM")
-        dragTextView.setText(target_text)
-        compareText.setText(compare_text)
+        intent?.apply {
+            binding.targetString = getStringExtra("NEWITEM")
+            binding.compareString = getStringExtra("COMPAREITEM")
+        }
 
         //画面のサイズを取得する
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
         val width = dm.widthPixels
 
-
-        val listener = View.OnTouchListener(function = { view, motionEvent ->
+        binding.targetText.setOnTouchListener { view, motionEvent ->
             if (motionEvent.action == MotionEvent.ACTION_MOVE) {
-                view.y = motionEvent.getRawY() - view.height/2
-                view.x = motionEvent.getRawX() - view.width/2
+                view.y = motionEvent.getRawY() - view.height / 2
+                view.x = motionEvent.getRawX() - view.width / 2
             }
 
             if (motionEvent.action == MotionEvent.ACTION_UP) {
@@ -53,9 +50,7 @@ class RankActivity : AppCompatActivity() {
 
             }
             true
-        })
-
-        dragTextView.setOnTouchListener(listener)
+        }
     }
 }
 
