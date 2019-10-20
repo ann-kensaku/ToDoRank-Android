@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewAdapter: RecyclerAdapter
     private lateinit var todoViewModel: TodoViewModel
-    private val RESULT_RANK_ACTIVITY = 1000
     private var low = 0
     private var high = 0
     private var middle = 0
@@ -32,33 +31,20 @@ class MainActivity : AppCompatActivity() {
         )
 
         todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
-        viewAdapter = RecyclerAdapter({
-            MaterialDialog(this).show {
-                title(text = "todoの編集")
-                input(prefill = it.title) { dialog, text ->
-                    it.title = text.toString()
-                    todoViewModel.update(it)
+        viewAdapter = RecyclerAdapter(
+            onClick = {
+                MaterialDialog(this).show {
+                    title(text = "todoの編集")
+                    input(prefill = it.title) { dialog, text ->
+                        it.title = text.toString()
+                        todoViewModel.update(it)
+                    }
+                    positiveButton(text = "OK")
                 }
-                positiveButton(text = "OK")
-            }
-        }, {
-            todoViewModel.update(it)
-        }, {
-            itemcount = viewAdapter.itemCount
-            //削除する項目のランクを取得
-            val delete_rank = it.rank
-            todoViewModel.delete(it)
-            for(i in delete_rank..itemcount) {
-
-                val temp_item = todoViewModel.allTodos.value?.get(i-1)
-                if (temp_item != null) {
-                    temp_item.rank = temp_item.rank - 1
-                    todoViewModel.update(temp_item)
-                }
-            }
-        })
-
-
+            },
+            onUpdate = { todoViewModel.update(it) },
+            onDelete = { todoViewModel.delete(it) }
+        )
 
         binding.recyclerView.apply {
             setHasFixedSize(true)
@@ -82,37 +68,39 @@ class MainActivity : AppCompatActivity() {
                     if (itemcount == 0) {
                         todoViewModel.insert(newItem)
                     } else {
-                        val intent = Intent(applicationContext, RankActivity::class.java)
                         targettext = newItem.title
                         high = 0
                         low = itemcount + 1
-                        //　これ以降のものはランクを変える必要がある
+                        // これ以降のものはランクを変える必要がある
                         change_rank = itemcount + 1
 
-                        middle = ((low + high) / 2) as Int
+                        middle = (low + high) / 2
                         //比較対象のタイトルを取り出す
-                        val comparetext = todoViewModel.allTodos.value?.get(middle-1)?.title
-
-                        intent.putExtra("NEWITEM", targettext)
-                        intent.putExtra("COMPAREITEM", comparetext)
-                        //startActivity(intent)
-                        startActivityForResult(intent, RESULT_RANK_ACTIVITY)
+                        val comparetext = todoViewModel.allTodos.value?.get(middle - 1)?.title ?: ""
+                        RankActivity.launch(
+                            this@MainActivity,
+                            RESULT_RANK_ACTIVITY,
+                            targettext,
+                            comparetext
+                        )
                     }
-                    positiveButton(text = "OK")
                 }
+                positiveButton(text = "OK")
             }
         }
     }
 
+    // TODO: ロジック分離のために大幅書き換え必要
     //比較結果を受け取る
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
 
-        if(resultCode == Activity.RESULT_OK &&
-                requestCode == RESULT_RANK_ACTIVITY && intent != null) {
+        if (resultCode == Activity.RESULT_OK &&
+            requestCode == RESULT_RANK_ACTIVITY && intent != null
+        ) {
             val rest = intent.extras?.getInt("ANSWER", 1)
             //より重要ならば
-            if(rest == 1) {
+            if (rest == 1) {
 
                 low = middle
                 change_rank = middle
@@ -121,21 +109,15 @@ class MainActivity : AppCompatActivity() {
             }
             if (low - high > 1) {
 
-                middle = ((low + high) / 2) as Int
-
-                val comparetext = todoViewModel.allTodos.value?.get(middle-1)?.title
-                val intent = Intent(applicationContext, RankActivity::class.java)
-
-                intent.putExtra("NEWITEM", targettext)
-                intent.putExtra("COMPAREITEM", comparetext)
-                //startActivity(intent)
-                startActivityForResult(intent, RESULT_RANK_ACTIVITY)
+                middle = (low + high) / 2
+                val comparetext = todoViewModel.allTodos.value?.get(middle - 1)?.title ?: ""
+                RankActivity.launch(this, RESULT_RANK_ACTIVITY, targettext, comparetext)
 
             } else {
-                val newItem = Item(0,targettext, false, low)
-                for(i in low..itemcount) {
+                val newItem = Item(0, targettext, false, low)
+                for (i in low..itemcount) {
 
-                    val temp_item = todoViewModel.allTodos.value?.get(i-1)
+                    val temp_item = todoViewModel.allTodos.value?.get(i - 1)
                     if (temp_item != null) {
                         temp_item.rank = temp_item.rank + 1
                         todoViewModel.update(temp_item)
@@ -145,5 +127,9 @@ class MainActivity : AppCompatActivity() {
                 todoViewModel.insert(newItem)
             }
         }
+    }
+
+    companion object {
+        private const val RESULT_RANK_ACTIVITY = 1000
     }
 }

@@ -1,6 +1,7 @@
 package jp.ann.kensaku.todorank
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -20,8 +21,8 @@ class RankActivity : AppCompatActivity() {
         )
 
         intent?.apply {
-            binding.targetString = getStringExtra("NEWITEM")
-            binding.compareString = getStringExtra("COMPAREITEM")
+            binding.targetString = getStringExtra(ARGUMENT_NEW_ITEM)
+            binding.compareString = getStringExtra(ARGUMENT_COMPARE_ITEM)
         }
 
         // 画面のサイズを取得する
@@ -55,5 +56,18 @@ class RankActivity : AppCompatActivity() {
         setResult(RESULT_OK, Intent().apply {
             putExtra("ANSWER", value)
         })
+    }
+
+    companion object {
+        private const val ARGUMENT_NEW_ITEM = "argumentNewItem"
+        private const val ARGUMENT_COMPARE_ITEM = "argumentCompareItem"
+
+        fun launch(activity: Activity, requestCode: Int, newItem: String, compareItem: String) {
+            val intent = Intent(activity, RankActivity::class.java).apply {
+                putExtra(ARGUMENT_NEW_ITEM, newItem)
+                putExtra(ARGUMENT_COMPARE_ITEM, compareItem)
+            }
+            activity.startActivityForResult(intent, requestCode)
+        }
     }
 }
