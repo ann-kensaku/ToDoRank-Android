@@ -34,9 +34,9 @@ class RankActivity : AppCompatActivity() {
         binding.targetText.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
                 MotionEvent.ACTION_MOVE -> {
-                    // TODO: 位置調整する。多分ActionBar分ずれている
-                    view.y = motionEvent.rawY - view.height / 2
-                    view.x = motionEvent.rawX - view.width / 2
+                    // Targetのテキストが動かしている途中も見えるように、少し上に表示する
+                    view.y += motionEvent.y - view.height * 3 / 2
+                    view.x += motionEvent.x - view.width / 2
                 }
                 MotionEvent.ACTION_UP -> {
                     if (motionEvent.rawX >= width * 2 / 3) {
