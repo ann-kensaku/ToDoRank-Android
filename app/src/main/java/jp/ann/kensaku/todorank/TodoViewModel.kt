@@ -26,6 +26,11 @@ class TodoViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun delete(todo: Item) = viewModelScope.launch {
+        val all = allTodos.value ?: return@launch
+
+        all.takeLastWhile { it != todo }
+            .map { it.copy(rank = it.rank - 1) }
+            .forEach { repository.update(it) }
         repository.delete(todo)
     }
 
