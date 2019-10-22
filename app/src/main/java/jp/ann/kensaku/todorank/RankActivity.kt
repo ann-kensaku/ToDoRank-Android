@@ -1,61 +1,73 @@
 package jp.ann.kensaku.todorank
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.MotionEvent
-import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import jp.ann.kensaku.todorank.databinding.ActivityRankBinding
 
 class RankActivity : AppCompatActivity() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_rank)
+        val binding = DataBindingUtil.setContentView<ActivityRankBinding>(
+            this,
+            R.layout.activity_rank
+        )
 
-        val intent = getIntent()
+        intent?.apply {
+            binding.targetString = getStringExtra(ARGUMENT_NEW_ITEM)
+            binding.compareString = getStringExtra(ARGUMENT_COMPARE_ITEM)
+        }
 
-        val dragTextView: TextView = findViewById(R.id.drag_text)
-        val compareText: TextView = findViewById(R.id.compare_text)
+        // 画面のサイズを取得する
+        val width = DisplayMetrics().let { dm ->
+            windowManager.defaultDisplay.getMetrics(dm)
+            dm.widthPixels
+        }
 
-        val target_text = intent.getStringExtra("NEWITEM")
-        val compare_text = intent.getStringExtra("COMPAREITEM")
-        dragTextView.setText(target_text)
-        compareText.setText(compare_text)
-
-        //画面のサイズを取得する
-        val dm = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(dm)
-        val width = dm.widthPixels
-
-
-        val listener = View.OnTouchListener(function = { view, motionEvent ->
-            if (motionEvent.action == MotionEvent.ACTION_MOVE) {
-                view.y = motionEvent.getRawY() - view.height/2
-                view.x = motionEvent.getRawX() - view.width/2
-            }
-
-            if (motionEvent.action == MotionEvent.ACTION_UP) {
-                if (motionEvent.getRawX() >= width * 2 / 3) {
-                    val rankIntent = Intent()
-                    rankIntent.putExtra("ANSWER", 1)
-                    setResult(RESULT_OK, rankIntent)
-                    finish()
-                } else if (motionEvent.getRawX() <= width / 3) {
-                    val rankIntent = Intent()
-                    rankIntent.putExtra("ANSWER", -1)
-                    setResult(RESULT_OK, rankIntent)
-                    finish()
+        binding.targetText.setOnTouchListener { view, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_MOVE -> {
+                    // Targetのテキストが動かしている途中も見えるように、少し上に表示する
+                    view.y += motionEvent.y - view.height * 3 / 2
+                    view.x += motionEvent.x - view.width / 2
                 }
-
+                MotionEvent.ACTION_UP -> {
+                    if (motionEvent.rawX >= width * 2 / 3) {
+                        setAnswer(1)
+                        finish()
+                    } else if (motionEvent.rawX <= width / 3) {
+                        setAnswer(-1)
+                        finish()
+                    }
+                }
             }
             true
-        })
+        }
+    }
 
-        dragTextView.setOnTouchListener(listener)
+    private fun setAnswer(value: Int) {
+        setResult(RESULT_OK, Intent().apply {
+            putExtra("ANSWER", value)
+        })
+    }
+
+    companion object {
+        private const val ARGUMENT_NEW_ITEM = "argumentNewItem"
+        private const val ARGUMENT_COMPARE_ITEM = "argumentCompareItem"
+
+        fun launch(activity: Activity, requestCode: Int, newItem: String, compareItem: String) {
+            val intent = Intent(activity, RankActivity::class.java).apply {
+                putExtra(ARGUMENT_NEW_ITEM, newItem)
+                putExtra(ARGUMENT_COMPARE_ITEM, compareItem)
+            }
+            activity.startActivityForResult(intent, requestCode)
+        }
     }
 }
-
