@@ -1,11 +1,9 @@
 package jp.ann.kensaku.todorank
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(tableName = "todo_table")
-data class Item (
+data class Item(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 
@@ -13,5 +11,8 @@ data class Item (
     var title: String,
 
     @ColumnInfo(name = "done")
-    var done: Boolean
+    var done: Boolean,
+
+    @ColumnInfo(name = "rank")
+    var rank: Int
 )

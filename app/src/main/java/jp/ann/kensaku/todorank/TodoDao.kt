@@ -5,7 +5,7 @@ import androidx.room.*
 
 @Dao
 interface TodoDao {
-    @Query("SELECT * FROM todo_table")
+    @Query("SELECT * FROM todo_table ORDER BY rank ASC")
     fun getAllTodos(): LiveData<List<Item>>
 
     @Query("SELECT * FROM todo_table WHERE id = :id")
