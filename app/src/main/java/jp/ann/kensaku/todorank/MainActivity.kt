@@ -64,26 +64,11 @@ class MainActivity : AppCompatActivity() {
                 input(hint = "Title") { dialog, text ->
                     itemcount = viewAdapter.itemCount
                     val newItem = Item(0, text.toString(), false, 1)
-                    //初めての追加ならば、そのままリストに加える
-                    if (itemcount == 0) {
-                        todoViewModel.insert(newItem)
-                    } else {
-                        targettext = newItem.title
-                        high = 0
-                        low = itemcount + 1
-                        // これ以降のものはランクを変える必要がある
-                        change_rank = itemcount + 1
-
-                        middle = (low + high) / 2
-                        //比較対象のタイトルを取り出す
-                        val comparetext = todoViewModel.allTodos.value?.get(middle - 1)?.title ?: ""
-                        RankActivity.launch(
-                            this@MainActivity,
-                            RESULT_RANK_ACTIVITY,
-                            targettext,
-                            comparetext
-                        )
-                    }
+                    high = 0
+                    low = itemcount+1
+                    change_rank = itemcount + 1
+                    targettext = newItem.title
+                    todoViewModel.add(this@MainActivity, newItem, high, low)
                 }
                 positiveButton(text = "OK")
             }
@@ -95,36 +80,20 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
 
+        val newItem = Item(0, targettext, false, low)
         if (resultCode == Activity.RESULT_OK &&
             requestCode == RESULT_RANK_ACTIVITY && intent != null
         ) {
             val rest = intent.extras?.getInt("ANSWER", 1)
             //より重要ならば
             if (rest == 1) {
-
-                low = middle
-                change_rank = middle
+                low = (low + high) / 2
+                change_rank = (low + high) / 2
+                todoViewModel.add(this@MainActivity, newItem, high, low)
             } else {
-                high = middle
-            }
-            if (low - high > 1) {
-
-                middle = (low + high) / 2
-                val comparetext = todoViewModel.allTodos.value?.get(middle - 1)?.title ?: ""
-                RankActivity.launch(this, RESULT_RANK_ACTIVITY, targettext, comparetext)
-
-            } else {
-                val newItem = Item(0, targettext, false, low)
-                for (i in low..itemcount) {
-
-                    val temp_item = todoViewModel.allTodos.value?.get(i - 1)
-                    if (temp_item != null) {
-                        temp_item.rank = temp_item.rank + 1
-                        todoViewModel.update(temp_item)
-                    }
-                }
-                //新しい項目を追加する
-                todoViewModel.insert(newItem)
+                high = (low + high) / 2
+                change_rank = (low + high) / 2
+                todoViewModel.add(this@MainActivity, newItem, high, low)
             }
         }
     }
