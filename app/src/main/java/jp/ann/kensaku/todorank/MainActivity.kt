@@ -3,7 +3,6 @@ package jp.ann.kensaku.todorank
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -95,29 +94,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.delete_done -> {
-                MaterialDialog(this).show {
-                    title(text = "チェック済み項目の削除")
-                    positiveButton(text = "削除") {
-                        todoViewModel.deleteDone(true)
-                    }
-                }
-                true
-            }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
-        }
-    }
-
     // TODO: ロジック分離のために大幅書き換え必要
     //比較結果を受け取る
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -172,22 +148,7 @@ class MainActivity : AppCompatActivity() {
                 MaterialDialog(this).show {
                     title(text = "チェック済み項目の削除")
                     positiveButton(text = "削除") {
-                        todoViewModel.deleteDone(true)
-
-                         //ランキングの書き換え
-                        itemcount = viewAdapter.itemCount
-                        Log.d("ITEMO", itemcount.toString())
-                        var rank = 1
-                        for(i in 0..itemcount-1) {
-                            val temp_item = todoViewModel.allTodos.value?.get(i)
-                            if (temp_item != null) {
-                                if(temp_item.done == false) {
-                                    temp_item.rank = rank
-                                    rank += 1
-                                }
-                                todoViewModel.update(temp_item)
-                            }
-                        }
+                        todoViewModel.deleteChecked()
                     }
                 }
                 true
