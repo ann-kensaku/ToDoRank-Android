@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toos="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="data"
-            type="jp.ann.kensaku.todorank.Item"/>
+            type="jp.ann.kensaku.todorank.Item" />
     </data>
 
     <LinearLayout
         android:id="@+id/linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="8dp">
 
         <CheckBox
             android:id="@+id/check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{data.done}"/>
+            android:layout_gravity="center"
+            android:checked="@{data.done}" />
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{data.title}"
             android:textSize="24sp"
-            android:text="@{data.title}"/>
-
-
+            toos:text="TODO1" />
     </LinearLayout>
+
 </layout>
