@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/toolbar"
+        android:icon="@drawable/ic_delete_white_24dp"
         android:title="チェック項目の削除"
         app:showAsAction="ifRoom" />
 </menu>
