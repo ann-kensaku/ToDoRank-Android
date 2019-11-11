@@ -9,27 +9,34 @@
             type="jp.ann.kensaku.todorank.Item" />
     </data>
 
-    <LinearLayout
-        android:id="@+id/linear_layout"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:focusable="true"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground">
 
-        <CheckBox
-            android:id="@+id/check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:checked="@{data.done}" />
-
-        <TextView
-            android:id="@+id/title_text"
+        <LinearLayout
+            android:id="@+id/linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@{data.title}"
-            android:textSize="24sp"
-            toos:text="TODO1" />
-    </LinearLayout>
+            android:padding="8dp">
 
+            <CheckBox
+                android:id="@+id/check_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="@{data.done}" />
+
+            <TextView
+                android:id="@+id/title_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{data.title}"
+                android:textSize="24sp"
+                toos:text="TODO1" />
+        </LinearLayout>
+    </FrameLayout>
 </layout>
