@@ -14,6 +14,9 @@ interface TodoDao {
     @Query("SELECT COUNT(*) FROM todo_table")
     fun count(): Int
 
+    @Query("DELETE FROM todo_table WHERE done == :done")
+    suspend fun deleteDone(done: Boolean)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(todo: Item)
 
