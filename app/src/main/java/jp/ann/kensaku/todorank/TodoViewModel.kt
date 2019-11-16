@@ -34,4 +34,19 @@ class TodoViewModel(application: Application): AndroidViewModel(application) {
         repository.delete(todo)
     }
 
+    fun deleteChecked() = viewModelScope.launch {
+        val all = allTodos.value ?: return@launch
+        var rank = 1
+
+        for (todo in all) {
+            if (todo.done == true) {
+                repository.delete(todo)
+            }
+            else {
+                todo.rank = rank++
+                repository.update(todo)
+            }
+        }
+    }
+
 }
