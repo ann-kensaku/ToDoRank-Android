@@ -34,8 +34,6 @@ class RankActivity : AppCompatActivity() {
         binding.targetText.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
                 MotionEvent.ACTION_MOVE -> {
-                    // Targetのテキストが動かしている途中も見えるように、少し上に表示する
-                    view.y += motionEvent.y - view.height * 3 / 2
                     view.x += motionEvent.x - view.width / 2
                 }
                 MotionEvent.ACTION_UP -> {
